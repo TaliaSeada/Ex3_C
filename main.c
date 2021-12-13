@@ -46,6 +46,23 @@ int countChr(char* str, char c){
     return res;
 }
 
+int isEqualAtbash(char* s, char* recived){
+    int i;
+    int j;
+    for(i = 0, j = 0; i < strlen(s); i++){
+        if(s[i] == ' ' || s[i] == '\n' || s[i] == '\t'){
+            continue;
+        } 
+        else if(s[i] == recived[j]){
+            j++;
+        }
+        else{
+            return 0;
+        }
+    }
+    return 1;
+}
+
 int isEqual(char* s, char* recived){
     int i;
     int j;
@@ -150,7 +167,36 @@ char* atbash(char* word){
         return NULL;
     }
 }
+void Atbash(char* recieved, char* txt){
+    int i;
+    int j;
+    int start = 0;
 
+    char* atba = atbash(recieved);
+    char* revers_atba = reverse(atbash(recieved));
+
+    for(i = 0; i < strlen(txt); i++){
+        char* curr = txt+i;
+        for(j = strlen(curr) - 1; j >= 0 ; j--){
+            char* copy = (char*) malloc(TXT);
+            strncpy(copy, curr, j);
+            if(isMin(copy) == 1){
+                if(isEqual(copy, atba) == 1 || isEqual(copy, revers_atba) == 1){
+                    if(isEqualAtbash(copy, atba) == 1 || isEqualAtbash(copy, revers_atba) == 1){
+                        if(start == 0){
+                            printf("%s", copy);
+                            start++;
+                        }
+                        else{
+                            printf("~%s", copy);
+                        }
+                    }
+                }
+            }
+            free(copy);
+        }
+    }
+}
 
 // C
 void isAnagram(char* recieved, char* txt){
@@ -180,36 +226,58 @@ void isAnagram(char* recieved, char* txt){
     }
 }
 
-
-
-
-
-
-
 int main(){
-    char w5[WORD] = "talia";
-    char txt[TXT] = "hi myta lianame is talia~";
-    isAnagram(w5,txt);
+    char* word = (char*) malloc(WORD);
+    if(word){
+        int i;
+        for(i = 0; i < WORD; i++){
+            char c = getchar();
+            if(c != '\t' && c != '\n' && c != ' '){
+                word[i] = c;
+            }
+            else{
+                word[i] = '\0';
+                continue;
+            }
+        }
+    }
+
+    char* txt = (char*) malloc(TXT);  
+    if(txt){
+        int j;
+        for(j = 0; j < TXT; j++){
+            char c2 = getchar();
+            if(c2 != '~'){
+                txt[j] = c2;
+            }
+            else{
+                txt[j] = '~';
+                txt[j+1] = '\0';
+                continue;
+            }
+        }
+    }
+
+
+    // printf("\n");
+    // printf("%s\n", word);
+    // printf("%s\n", txt);
+
+    printf("\n");
+    printf("Gematria Sequences: ");
+    Gematria(word,txt);
     printf("\n");
 
-    Gematria(w5,txt);
+    printf("Atbash Sequences: ");
+    Atbash(word, txt);
     printf("\n");
 
-    // printf("%d\n", toGematri("abc"));
-    // printf("%d\n", toGematri("ABC"));
-
-    // char w[WORD] = "ABC";
-    // printf("%s\n", atbash(w));
-    // printf("%s\n", w);
-    // printf("%s\n", reverse(w));
-    // char w2[WORD] = "*akdoe"; //false - start
-    // char w3[WORD] = "kdoe"; //true
-    // char w4[WORD] = "kdoe&"; //false - end
-    // printf("%d\n", isMin(w2));
-    // printf("%d\n", isMin(w3));
-    // printf("%d\n", isMin(w4));
-    
+    printf("Anagram Sequences: ");
+     isAnagram(word,txt);
+    printf("\n");
 
 
+    free(word);
+    free(txt);
     return 0;
 }
