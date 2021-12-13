@@ -7,7 +7,7 @@
 #define TRUE 1
 #define FALSE 0
 
-// all
+// help functions
 int isMin(char* word){
     char start = word[0];
     char end = word[strlen(word)-1];
@@ -34,7 +34,6 @@ int isMin(char* word){
     }
 }
 
-// help
 int countChr(char* str, char c){
     int res = 0;
     int i;
@@ -65,7 +64,6 @@ int isEqualAtbash(char* s, char* recived){
 
 int isEqual(char* s, char* recived){
     int i;
-    int j;
     int cnt_rec;
     int cnt_s;
     for(i = 0; i < strlen(recived); i++){
@@ -258,11 +256,6 @@ int main(){
         }
     }
 
-
-    // printf("\n");
-    // printf("%s\n", word);
-    // printf("%s\n", txt);
-
     printf("\n");
     printf("Gematria Sequences: ");
     Gematria(word,txt);
@@ -275,7 +268,6 @@ int main(){
     printf("Anagram Sequences: ");
      isAnagram(word,txt);
     printf("\n");
-
 
     free(word);
     free(txt);
