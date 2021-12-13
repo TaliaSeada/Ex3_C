@@ -237,7 +237,7 @@ int main(){
             }
             else{
                 word[i] = '\0';
-                continue;
+                break;
             }
         }
     }
@@ -253,7 +253,7 @@ int main(){
             else{
                 txt[j] = '~';
                 txt[j+1] = '\0';
-                continue;
+                break;
             }
         }
     }
