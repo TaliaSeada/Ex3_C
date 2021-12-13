@@ -7,56 +7,7 @@
 #define TRUE 1
 #define FALSE 0
 
-int toGematri(char* word){ 
-    int lower = 96;
-    int uper = 64;
-    int res = 0;
-    int i;
-    for(i = 0; i < strlen(word); i++){
-        char c = word[i];
-        if(c > 96 && c < 123){
-            res += (c - lower); // using ascii values
-        }
-        if(c > 64 && c < 91){
-            res += (c - uper); // using ascii values
-        }
-    }
-    return res;
-}
-
-char* atbash(char* word){
-    char* w = (char*) malloc(WORD);
-    if(w){
-        int i;
-        for(i = 0; i < strlen(word); i++){
-            if(word[i] > 96 && word[i] < 123){
-                w[i] = (char) (123 - word[i] + 96);
-            }
-            if(word[i] > 64 && word[i] < 91){
-                w[i] = (char) (91 - word[i] + 64);
-            }
-        }
-        return w;
-    }
-    else {
-        return NULL;
-    }
-}
-
-char* reverse(char* word){
-    char* w = (char*) malloc(WORD);
-    if(w){
-        int i;
-        for(i = 0; i < strlen(word); i++){ 
-            w[i] = (char) word[strlen(word) - 1 - i];
-        }
-        return w;
-    }
-    else{
-        return NULL;
-    }
-}
-
+// all
 int isMin(char* word){
     char start = word[0];
     char end = word[strlen(word)-1];
@@ -83,20 +34,167 @@ int isMin(char* word){
     }
 }
 
-int isAnagram(char* word){
-    char* res = strstr(word, "a");
+// help
+int countChr(char* str, char c){
+    int res = 0;
+    int i;
+    for(i = 0; i < strlen(str); i++){
+        if(str[i] == c){
+            res++;
+        }
+    }
+    return res;
+}
 
+int isEqual(char* s, char* recived){
+    int i;
+    int j;
+    int cnt_rec;
+    int cnt_s;
+    for(i = 0; i < strlen(recived); i++){
+        if(recived[i] == ' ') continue;
+        cnt_rec = countChr(recived, recived[i]);
+        cnt_s = countChr(s, recived[i]);
 
-    if(res){
-        return 1;
+        if(cnt_rec != cnt_s){
+            return 0;
+        }
+    }
+    for(i = 0; i < strlen(s); i++){
+        if(s[i] == ' ') continue;
+        cnt_rec = countChr(recived, s[i]);
+        cnt_s = countChr(s, s[i]);
+
+        if(cnt_rec != cnt_s){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int toGematri(char* word){ 
+    int lower = 96;
+    int uper = 64;
+    int res = 0;
+    int i;
+    for(i = 0; i < strlen(word); i++){
+        char c = word[i];
+        if(c > 96 && c < 123){
+            res += (c - lower); // using ascii values
+        }
+        if(c > 64 && c < 91){
+            res += (c - uper); // using ascii values
+        }
+    }
+    return res;
+}
+
+char* reverse(char* word){
+    char* w = (char*) malloc(WORD);
+    if(w){
+        int i;
+        for(i = 0; i < strlen(word); i++){ 
+            w[i] = (char) word[strlen(word) - 1 - i];
+        }
+        return w;
     }
     else{
-        return 0;
+        return NULL;
+    }
+}
+
+// A
+void Gematria(char* recieved, char* txt){
+    int gimetric_recieved = toGematri(recieved);
+    int i;
+    int j;
+    int start = 0;
+    for(i = 0; i < strlen(txt); i++){
+        char* curr = txt+i;
+        for(j = strlen(curr) - 1; j >= 0 ; j--){
+            char* copy = (char*) malloc(TXT);
+            strncpy(copy, curr, j);
+            if(isMin(copy) == 1){
+                int g = toGematri(copy);
+                if(g == gimetric_recieved){
+                    if(start == 0){
+                        printf("%s", copy);
+                        start++;
+                    }
+                    else{
+                        printf("~%s", copy);
+                    }
+                }
+            }
+            free(copy);
+        }
+    }
+}
+
+// B
+char* atbash(char* word){
+    char* w = (char*) malloc(WORD);
+    if(w){
+        int i;
+        for(i = 0; i < strlen(word); i++){
+            if(word[i] > 96 && word[i] < 123){
+                w[i] = (char) (123 - word[i] + 96);
+            }
+            if(word[i] > 64 && word[i] < 91){
+                w[i] = (char) (91 - word[i] + 64);
+            }
+        }
+        return w;
+    }
+    else {
+        return NULL;
     }
 }
 
 
+// C
+void isAnagram(char* recieved, char* txt){
+    int gimetric_recieved = toGematri(recieved);
+    int i;
+    int j;
+    int start = 0;
+    for(i = 0; i < strlen(txt); i++){
+        char* curr = txt+i;
+        for(j = strlen(curr) - 1; j >= 0 ; j--){
+            char* copy = (char*) malloc(TXT);
+            strncpy(copy, curr, j);
+            if(isMin(copy) == 1){
+                int g = toGematri(copy);
+                if(g == gimetric_recieved && isEqual(copy, recieved) == 1){
+                    if(start == 0){
+                        printf("%s", copy);
+                        start++;
+                    }
+                    else{
+                        printf("~%s", copy);
+                    }
+                }
+            }
+            free(copy);
+        }
+    }
+}
+
+
+
+
+
+
+
 int main(){
+    char w5[WORD] = "talia";
+    char txt[TXT] = "hi myta lianame is talia~";
+    isAnagram(w5,txt);
+    printf("\n");
+
+    Gematria(w5,txt);
+    printf("\n");
+
     // printf("%d\n", toGematri("abc"));
     // printf("%d\n", toGematri("ABC"));
 
@@ -104,14 +202,13 @@ int main(){
     // printf("%s\n", atbash(w));
     // printf("%s\n", w);
     // printf("%s\n", reverse(w));
-    char w2[WORD] = "*akdoe"; //false - start
-    char w3[WORD] = "kdoe"; //true
-    char w4[WORD] = "kdoe&"; //false - end
+    // char w2[WORD] = "*akdoe"; //false - start
+    // char w3[WORD] = "kdoe"; //true
+    // char w4[WORD] = "kdoe&"; //false - end
     // printf("%d\n", isMin(w2));
     // printf("%d\n", isMin(w3));
     // printf("%d\n", isMin(w4));
-
-    printf("%d\n", isAnagram(w2));
+    
 
 
     return 0;
