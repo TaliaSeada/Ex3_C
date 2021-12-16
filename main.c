@@ -267,7 +267,7 @@ int main(){
 
     printf("Anagram Sequences: ");
      isAnagram(word,txt);
-    printf("\n");
+    // printf("\n");
 
     free(word);
     free(txt);
