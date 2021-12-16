@@ -256,7 +256,7 @@ int main(){
         }
     }
 
-    printf("\n");
+    // printf("\n");
     printf("Gematria Sequences: ");
     Gematria(word,txt);
     printf("\n");
