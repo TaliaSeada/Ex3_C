@@ -256,7 +256,6 @@ int main(){
         }
     }
 
-    // printf("\n");
     printf("Gematria Sequences: ");
     Gematria(word,txt);
     printf("\n");
@@ -266,8 +265,7 @@ int main(){
     printf("\n");
 
     printf("Anagram Sequences: ");
-     isAnagram(word,txt);
-    // printf("\n");
+    isAnagram(word,txt);
 
     free(word);
     free(txt);
